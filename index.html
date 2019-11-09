@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+  <title>To-Do List</title>
+</head>
+<body>
+  <div class="container">
+    <div id="task-area" class="py-1">
+      <!-- Title of the App -->
+      <div id="title" class="mb-2">
+        <h1>To Do List</h1>
+      </div>
+      <!-- Input Take Name here -->
+      <div id="input-area" class="py-1">
+        <form id="task-form">
+          <input type="text" name="name" id="name" placeholder="Input Task Name" class="input-field">
+          <input type="submit" id="add" value="Add Task" class="btn">
+        </form>
+      </div>
+      <!-- Items that are added to the list appear here -->
+      <div id="task-items-area" class="py-1">
+        <ul id="task-items">
+          <li class="task">Sample Task Text
+            <span class="task-manage">
+                <i class="fas fa-check fa-1x check"></i>
+                <i class="fas fa-edit fa-1x"></i>
+                <i class="fas fa-minus-circle fa-1x delete"></i>
+          <li class="task">
+            Sample Task Text
+            <span class="task-manage">
+                <i class="fas fa-check fa-1x check"></i>
+                <i class="fas fa-edit fa-1x"></i>
+                <i class="fas fa-minus-circle fa-1x delete"></i>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <!-- Clear Items button here -->
+      <div id="clear-items-area" class="mt-1">
+        <a href="#" id="clear" class="btn-light">Clear Tasks</a>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
