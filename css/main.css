@@ -105,4 +105,6 @@ i {
 
 #clear-items-area {
   display: flex;
-  justify-content: center; }
+  justify-content: flex-start; }
+  #clear-items-area a {
+    margin-right: 0.5rem; }
