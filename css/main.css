@@ -71,6 +71,13 @@ i {
 .strike {
   text-decoration: line-through; }
 
+.standard-padding {
+  padding: 0.5rem 0.2rem; }
+
+.danger {
+  background: pink;
+  color: darkred; }
+
 #task-form {
   display: flex;
   font-size: 1rem; }
@@ -80,7 +87,7 @@ i {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-right: none;
-    padding: 0.4rem 0.25rem;
+    padding: 0.5rem 0.2rem;
     outline: none;
     font-size: inherit; }
   #task-form #add {
@@ -108,3 +115,9 @@ i {
   justify-content: flex-start; }
   #clear-items-area a {
     margin-right: 0.5rem; }
+
+#error-area {
+  display: flex;
+  justify-content: center; }
+  #error-area p {
+    border-radius: 3px; }

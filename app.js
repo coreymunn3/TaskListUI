@@ -5,6 +5,7 @@ addBtn = document.getElementById('add');
 inputTask = document.getElementById('name');
 clearBtn = document.getElementById('clear');
 taskList = document.getElementById('task-items');
+errorMsg = document.getElementById('error');
 
 // Event Listeners
 addBtn.addEventListener('click',addTask);
@@ -13,53 +14,100 @@ taskList.addEventListener('click',manageTask);
 document.addEventListener('DOMContentLoaded',getTasks)
 
 // Functions
+function getTasks(){
+  let tasks = localStorage.getItem('tasks');
+  if (tasks === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.forEach(function(task){
+    // create list item element
+    const li = document.createElement('li');
+    li.className = 'task';
+    // add list item text content
+    const taskName = document.createTextNode(task);
+    li.appendChild(taskName);
+    // create list item children
+    const checkIcon = document.createElement('i');
+    checkIcon.className = 'fas fa-check fa-1x check'
+    const editIcon = document.createElement('i');
+    editIcon.className = 'fas fa-edit fa-1x'
+    const deleteIcon = document.createElement('i');
+    deleteIcon.className = 'fas fa-minus-circle fa-1x delete'
+    // span element with icons appended
+    const span = document.createElement('span')
+    span.className = 'task-manage'
+    span.appendChild(checkIcon);
+    span.appendChild(editIcon);
+    span.appendChild(deleteIcon);
+    // append span to li
+    li.appendChild(span);
+    // append li to ul
+    taskList.appendChild(li);
+  })
+}
 function addTask(e){
-  // create list item element
-  const li = document.createElement('li');
-  li.className = 'task';
-  // add list item text content
-  const taskName = document.createTextNode(inputTask.value);
-  li.appendChild(taskName);
-  // create list item children
-  const checkIcon = document.createElement('i');
-  checkIcon.className = 'fas fa-check fa-1x check'
-  const editIcon = document.createElement('i');
-  editIcon.className = 'fas fa-edit fa-1x'
-  const deleteIcon = document.createElement('i');
-  deleteIcon.className = 'fas fa-minus-circle fa-1x delete'
-  // span element with icons appended
-  const span = document.createElement('span')
-  span.className = 'task-manage'
-  span.appendChild(checkIcon);
-  span.appendChild(editIcon);
-  span.appendChild(deleteIcon);
-  // append span to li
-  li.appendChild(span);
-  // append li to ul
-  taskList.appendChild(li);
+  // if no task name is entered, display error
+  if (inputTask.value === ''){
+    displayErrorMessage("Please First Enter a Task Name")
+    setTimeout(clearErrorMessage,3000)
+  } else {
+    // create list item element
+    const li = document.createElement('li');
+    li.className = 'task';
+    // add list item text content
+    const taskName = document.createTextNode(inputTask.value);
+    li.appendChild(taskName);
+    // create list item children
+    const checkIcon = document.createElement('i');
+    checkIcon.className = 'fas fa-check fa-1x check'
+    const editIcon = document.createElement('i');
+    editIcon.className = 'fas fa-edit fa-1x'
+    const deleteIcon = document.createElement('i');
+    deleteIcon.className = 'fas fa-minus-circle fa-1x delete'
+    // span element with icons appended
+    const span = document.createElement('span')
+    span.className = 'task-manage'
+    span.appendChild(checkIcon);
+    span.appendChild(editIcon);
+    span.appendChild(deleteIcon);
+    // append span to li
+    li.appendChild(span);
+    // append li to ul
+    taskList.appendChild(li);
 
-  // push to local storage
-  pushToLocalStorage(inputTask.value);
+    // push to local storage
+    pushToLocalStorage(inputTask.value);
 
-  // clear input field of text
-  inputTask.value = '';
-  e.preventDefault();
+    // clear input field of text
+    inputTask.value = '';
+    e.preventDefault();
+  }
 }
 
 function clearTasks(){
-  // clear from UI
-  let child = taskList.firstElementChild;
-  while (child){
-    child.remove();
-    child = taskList.firstElementChild;
+  // if there are no tasks in the list, display error
+  let numListChildren = document.querySelectorAll('.task').length
+  if (numListChildren === 0) {
+    displayErrorMessage("No Tasks in List");
+    setTimeout(clearErrorMessage,3000);
+  } else {
+    // clear from UI
+    let child = taskList.firstElementChild;
+    while (child){
+      child.remove();
+      child = taskList.firstElementChild;
+    }
+    // clear from local storage
+    localStorage.removeItem('tasks')
   }
-  // clear from local storage
-  localStorage.removeItem('tasks')
 }
 
 function manageTask(e){
   // delete button removes the li and removes from local storage
-  li = e.target.parentElement.parentElement;
+  let li = e.target.parentElement.parentElement;
   if (e.target.classList.contains('delete')){
     li.remove();
     removeFromLocalStorage(li.textContent)
@@ -104,37 +152,11 @@ function removeFromLocalStorage(taskToRemove){
   localStorage.setItem('tasks',JSON.stringify(tasks))
 }
 
-function getTasks(){
-  let tasks = localStorage.getItem('tasks');
-  if (tasks === null) {
-    tasks = [];
-  } else {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
-  }
-
-  tasks.forEach(function(task){
-    // create list item element
-    const li = document.createElement('li');
-    li.className = 'task';
-    // add list item text content
-    const taskName = document.createTextNode(task);
-    li.appendChild(taskName);
-    // create list item children
-    const checkIcon = document.createElement('i');
-    checkIcon.className = 'fas fa-check fa-1x check'
-    const editIcon = document.createElement('i');
-    editIcon.className = 'fas fa-edit fa-1x'
-    const deleteIcon = document.createElement('i');
-    deleteIcon.className = 'fas fa-minus-circle fa-1x delete'
-    // span element with icons appended
-    const span = document.createElement('span')
-    span.className = 'task-manage'
-    span.appendChild(checkIcon);
-    span.appendChild(editIcon);
-    span.appendChild(deleteIcon);
-    // append span to li
-    li.appendChild(span);
-    // append li to ul
-    taskList.appendChild(li);
-  })
+function displayErrorMessage(message){
+  errorMsg.textContent = message;
+  errorMsg.classList.add('standard-padding')
+}
+function clearErrorMessage(){
+  errorMsg.textContent = '';
+  errorMsg.classList.remove('standard-padding')
 }
